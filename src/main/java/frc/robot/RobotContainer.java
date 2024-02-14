@@ -6,7 +6,11 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-
+import edu.wpi.first.wpilibj2.command.RunCommand;
+import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
+import frc.robot.commands.RotateArmBackward;
+import frc.robot.commands.RotateArmForward;
+import frc.robot.subsystems.Arm;
 import frc.robot.autos.*;
 import frc.robot.commands.*;
 import frc.robot.subsystems.*;
@@ -28,11 +32,14 @@ public class RobotContainer {
 
     /* Driver Buttons */
     private final JoystickButton zeroGyro = new JoystickButton(driver, XboxController.Button.kY.value);
-    private final JoystickButton robotCentric = new JoystickButton(driver, XboxController.Button.kLeftBumper.value);
+    private final JoystickButton robotCentric = new JoystickButton(driver, XboxController.Button.kA.value);
+    private final JoystickButton rotateArmForwardButton = new JoystickButton(driver, XboxController.Button.kLeftBumper.value);
+    private final JoystickButton rotateArmBackwardButton = new JoystickButton(driver, XboxController.Button.kRightBumper.value);
+
 
     /* Subsystems */
     private final Swerve s_Swerve = new Swerve();
-
+    private final Arm m_arm = new Arm();
 
     /** The container for the robot. Contains subsystems, OI devices, and commands. */
     public RobotContainer() {
@@ -59,6 +66,8 @@ public class RobotContainer {
     private void configureButtonBindings() {
         /* Driver Buttons */
         zeroGyro.onTrue(new InstantCommand(() -> s_Swerve.zeroHeading()));
+        rotateArmForwardButton.whileTrue(new RotateArmForward(m_arm));
+        rotateArmBackwardButton.whileTrue(new RotateArmBackward(m_arm));
     }
 
     /**
