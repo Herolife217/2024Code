@@ -67,7 +67,7 @@ public class RobotContainer {
         /* Driver Buttons */
         zeroGyro.onTrue(new InstantCommand(() -> s_Swerve.zeroHeading()));
         rotateArmForwardButton.whileTrue(new RotateArmForward(m_arm));
-        rotateArmBackwardButton.whileTrue(new RotateArmBackward(m_arm));
+        rotateArmBackwardButton.onTrue(new InstantCommand(() -> m_arm.setRotate1Speed(.5)));
     }
 
     /**
